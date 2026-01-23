@@ -19,13 +19,27 @@ public class Treballador extends Thread {
     }
 
     public void cobra() {
-        float souMensual = sou_anual_brut / 12.0f; //divide el sueldo total en 12 partes
+        float souMensual = sou_anual_brut / 12.0f; //divide el sueldo bruto en 12 partes
         this.cobrat += souMensual;
+
+        int delay = 1 + (int)(rnd.nextFloat() * 9);
+        try {
+            Thread.sleep(delay);  
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void pagaImpostos() {
         float impostos = (sou_anual_brut / 12.0f) * 0.24f;
         this.cobrat -= impostos;
+
+        int delay = 1 + (int)(rnd.nextFloat() * 9);
+        try {
+            Thread.sleep(delay);  
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -38,6 +52,12 @@ public class Treballador extends Thread {
                 }
             }
         }
+
+        try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
     }
 
     public int getEdat() {
