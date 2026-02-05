@@ -5,7 +5,7 @@ public class Esdeveniment {
     private int num_places;
     private List<Assistent> reservados;
 
-    private Esdeveniment (int num_places_max) {
+    public Esdeveniment (int num_places_max) {
         this.num_places = num_places_max;
         this.reservados = new ArrayList<>();
     }
@@ -32,5 +32,9 @@ public class Esdeveniment {
         } else {
             System.out.println(a.getNom() + " no ha pogut cancel·lar una reserva inexistent. Places disponibles: " + num_places);
         }
+    }
+
+    public synchronized int getPlacesDisponibles() {
+        return num_places;
     }
 }
