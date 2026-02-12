@@ -21,4 +21,16 @@ public class Forquilla {
     public void setNum_forquilles(int num_forquilles) {
         this.num_forquilles = num_forquilles;
     }
+
+    public boolean agafar() {
+        if (!enUs) {
+            enUs = true;
+            return true;
+        }
+        return false;
+    }
+
+    public void deixar() {
+        enUs = false;
+    }
 }
