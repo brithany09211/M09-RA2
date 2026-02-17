@@ -21,8 +21,7 @@ public class Taula {
     public void showTaula() {
         System.out.println("\n=== Estado de la Taula ===");
         for (int i = 0; i < comensals.length; i++) {
-            System.out.println("Comensal: fil" + i + " esq:" + i + " dret:" + 
-                             ((i + 1) % comensals.length));
+            System.out.println("Comensal: fil" + i + " esq:" + i + " dret:" + ((i + 1) % comensals.length));
         }
         System.out.println("==========================\n");
     }

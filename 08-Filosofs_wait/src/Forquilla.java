@@ -1,39 +1,16 @@
 public class Forquilla {
-    Boolean enUs = false;
-    int num_forquilles;
-    int num_propietari;
-    final int LLIURE = -1; 
+    private Boolean enUs = false;
+    private int num_forquilles;
+    private int num_propietari;
+    private final int LLIURE = -1;
 
-    public Forquilla (int num_forquilles) {
+    public Forquilla(int num_forquilles) {
         this.num_forquilles = num_forquilles;
-    }
-
-    public Boolean isEnUs() {
-        return enUs;
-    }
-
-    public void setEnUs(Boolean enUs) {
-        this.enUs = enUs;
+        this.num_propietari = LLIURE;
     }
 
     public int getNum_forquilles() {
         return num_forquilles;
-    }
-
-    public void setNum_forquilles(int num_forquilles) {
-        this.num_forquilles = num_forquilles;
-    }
-
-    public boolean agafar() {
-        if (!enUs) {
-            enUs = true;
-            return true;
-        }
-        return false;
-    }
-
-    public void deixar() {
-        enUs = false;
     }
 
     public int getNum_propietari() {
@@ -47,10 +24,16 @@ public class Forquilla {
     public int getLLIURE() {
         return LLIURE;
     }
-    public void esperarLliure() throws InterruptedException {
+    
+        public synchronized void agafar() throws InterruptedException {
         while (enUs) {
             wait();
         }
+        enUs = true;
     }
-    
+
+    public synchronized void deixar() {
+        enUs = false;
+        notifyAll();
+    }
 }
