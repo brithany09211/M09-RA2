@@ -9,5 +9,19 @@ public class Barri {
         }
     }
 
-    
+    public static void main(String[] args) throws InterruptedException {
+        Barri barri = new Barri();
+ 
+        for (int i = 0; i < 3; i++) {
+            barri.fumadors[i].start();
+        }
+ 
+        barri.estanc.start();
+ 
+        for (int i = 0; i < 3; i++) {
+            barri.fumadors[i].join();
+        }
+ 
+        barri.estanc.tancarEstanc();
+    }
 }

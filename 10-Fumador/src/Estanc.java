@@ -1,72 +1,79 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Estanc extends Thread {
-    public List<String> tabac;
-    public List<String> llumins;
-    public List<String> paper;
+    public List<Tabac> tabac;
+    public List<Llumi> llumins;
+    public List<Paper> paper;
     public Random rnd;
     public boolean tancar;
 
-    public Estanc(List<String> tabac, List<String> llumins, List<String> paper) {
-        this.tabac = tabac;
-        this.llumins = llumins;
-        this.paper = paper;
+    public Estanc() {
+        this.tabac = new ArrayList<>();
+        this.llumins = new ArrayList<>();
+        this.paper = new ArrayList<>();
         this.rnd = new Random();
         this.tancar = false;
     }
 
     public synchronized void addTabac() {
-        tabac.add("tabac");
+        tabac.add(new Tabac());
         System.out.println("Afegint tabac");
         notifyAll();
     }
 
     public synchronized void addLlumi() {
-        llumins.add("llumi");
-        System.out.println("Afegint llumi");
+        llumins.add(new Llumi());
+        System.out.println("Afegint Llumí");
         notifyAll();
-    }   
+    }
 
     public synchronized void addPaper() {
-        paper.add("paper");
-        System.out.println("Afegint paper");
+        paper.add(new Paper());
+        System.out.println("Afegint Paper");
         notifyAll();
     }
 
     public void nouSubministrament() {
-        //33% de probabilitat cada uno y solo se hace uno 
-        int opcio = rnd.nextInt(3); 
-        if (opcio == 0)  {
+        int opcio = rnd.nextInt(3);
+        if (opcio == 0) {
             addTabac();
-        }
-        else if (opcio == 1) {
+        } else if (opcio == 1) {
             addLlumi();
-
         } else {
             addPaper();
         }
     }
 
-    public synchronized String venTabac() throws InterruptedException {
-        while (tabac.isEmpty()) {
+    public synchronized Tabac venTabac() throws InterruptedException {
+        while (tabac.isEmpty() && !tancar) {
             wait();
         }
-        return tabac.remove(0);
+        if (!tabac.isEmpty()) {
+            return tabac.remove(0);
+        }
+        return null;
     }
 
-    public synchronized String venLlumi() throws InterruptedException {
-        while (llumins.isEmpty()) {
+    public synchronized Llumi venLlumi() throws InterruptedException {
+        while (llumins.isEmpty() && !tancar) {
             wait();
         }
-        return llumins.remove(0);
+        if (!llumins.isEmpty()) {
+            return llumins.remove(0);
+        }
+        return null;
     }
 
-    public synchronized String venPaper() throws InterruptedException {
-        while (paper.isEmpty()) {
+    public synchronized Paper venPaper() throws InterruptedException {
+        while (paper.isEmpty() && !tancar) {
             wait();
         }
-        return paper.remove(0);
+        if (!paper.isEmpty()) {
+            return paper.remove(0);
+        }
+        return null;
     }
 
     public synchronized void tancarEstanc() {
@@ -77,7 +84,8 @@ public class Estanc extends Thread {
 
     @Override
     public void run() {
-        while(!tancar) {
+        System.out.println("Estanc obert");
+        while (!tancar) {
             nouSubministrament();
             try {
                 long esperar = 500 + (long)(rnd.nextDouble() * 1000);
