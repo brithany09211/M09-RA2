@@ -1,19 +1,21 @@
 public class Home extends Thread {
     private String nom;
-    private int lavabo;
-    private BanyUnisex bany;
+    private BanyUnisex lavabo;
 
-    public Home (String nom, BanyUnisex bany) { 
+    public Home (String nom, BanyUnisex lavabo) { 
         this.nom = nom;
-        this.bany = bany;
+        this.lavabo = lavabo;
     }
 
     @Override
     public void run() {
         try {
-            BanyUnisex.entraHome();
-            BanyUnisex.utilitzaLavabo();
-            BanyUnisex.surtHome();
+            System.out.println(nom + " vol entrar al bany");
+            lavabo.entraHome();
+
+            Thread.sleep(1000 + (long)(Math.random() * 1000));
+            lavabo.surtHome();
+            System.out.println(nom + " ha acabat d'usar el bany");
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
